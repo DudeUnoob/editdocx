@@ -1,0 +1,88 @@
+<html>
+
+<head>
+  <title>Login</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="stylesheet" href="/public/login.css">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VEWT4KY6Y8"></script>
+  <meta name="google-signin-client_id"
+    content="253747450477-kplgcppb6u51jtq0vfe06sbahmmveamq.apps.googleusercontent.com">
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-VEWT4KY6Y8');
+  </script>
+</head>
+
+<body>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+
+  <form action="/login" method="post">
+    <h3>Login Here</h3>
+
+    <label for="username">Username</label>
+    <input type="text" placeholder="Username" id="username" name="username">
+
+    <label for="password">Password</label>
+    <input type="password" placeholder="Password" id="password" name="password">
+
+    <button id="login">Log In</button>
+    <!-- <button id="cancelbutton"><a href="/">Cancel</a></button> -->
+   
+      
+      <div id="g_id_onload"
+     data-client_id="253747450477-kplgcppb6u51jtq0vfe06sbahmmveamq.apps.googleusercontent.com"
+     data-context="use"
+     data-ux_mode="popup"
+     data-login_uri="/login_google"
+     data-auto_select="true"
+     data-itp_support="true">
+</div>
+<div id="cancelbutton">
+<div class="g_id_signin"
+     data-type="standard"
+     data-shape="rectangular"
+     data-theme="filled_blue"
+     data-text="continue_with"
+     data-size="medium"
+     data-logo_alignment="left"
+     data-width="327"
+     
+     >
+</div>
+</div>
+
+    
+     
+    
+    
+    <!-- <div class="social">
+      
+    </div> -->
+  </form>
+  <script>
+
+    const container = document.getElementById('container')
+  
+
+    // let cancelBtn = document.getElementById('cancelbutton');
+    // cancelBtn.addEventListener('click', function (e) {
+    //   window.location.href = '/'
+    // })
+  </script>
+  <!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+
+</body>
+
+</html>

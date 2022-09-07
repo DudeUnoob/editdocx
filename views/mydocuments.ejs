@@ -1,0 +1,227 @@
+<html>
+
+<head>
+    <title>My Documents</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VEWT4KY6Y8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-VEWT4KY6Y8');
+    </script>
+</head>
+
+<body>
+    <h1 style="margin: 15px;">Welcome</h1>
+    <div class="header" style="margin: 15px;">
+        <h1 id="user">
+            <%= user %>
+        </h1>
+        <img id="pfp" src="<%= picture %>" referrerPolicy="no-referrer"/>
+    </div>
+    <div style="margin: 15px;">
+        <a href="/document">Create a Document</a>
+    </div>
+    <div id="mydocuments" style="margin: 15px;">
+
+        <% documents.forEach(doc=> { %>
+            <div id="grid-item">
+                <div class="card">
+                    <div class="container" onclick="redirectDocument('<%=doc.documentId %>')">
+                        <p>
+                            <% if(!doc.title){ %>
+                                Untitled
+                                <% } else { %>
+                                    <%= doc.title %>
+                                        <% } %>
+                        </p>
+                    </div>
+                    <button type="button" onclick="deleteDocument('<%=doc.documentId %>')"
+                        class="delete-btn">Delete</button>
+                </div>
+            </div>
+            <!-- <a href=/document/<%=doc %>> <%=doc %></a> -->
+            <% }) %>
+
+    </div>
+
+    <div style="margin: 15px;">
+        <h1>Shared With Me</h1>
+    </div>
+    <div id="mydocuments" style="margin: 15px;">
+
+        <% sharedDocs.forEach(doc => { %>
+            <div id="grid-item">
+                <div class="card">
+                    <div class="container" onclick="redirectDocument('<%= doc.documentId %>')">
+                        
+                           <%= doc.title %>
+                           <h4>Owner: <%= doc.owner %></h4>
+                        
+                    </div>
+                </div>
+            </div>
+            
+       <% }) %>
+    </div>
+
+    <script>
+        let reloadState = false;
+        const mydocuments = document.getElementById('mydocuments');
+        const userId = document.getElementById('user')
+        if (mydocuments.childElementCount == 0) {
+            mydocuments.innerHTML = "<h1>Looks like you have no Documents!</h1>";
+        }
+        window.addEventListener("pageshow", function (event) {
+            var historyTraversal = event.persisted ||
+                (typeof window.performance != "undefined" &&
+                    window.performance.navigation.type === 2);
+            if (historyTraversal) {
+                // Handle page restore.
+                window.location.reload();
+            }
+        });
+        function deleteDocument(doc) {
+            if (confirm('Are you sure you want to delete this document?') == true) {
+                console.log(doc)
+                console.log('deleted document')
+                fetch('/deletedocument', {
+                    method: 'post',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        document: doc,
+                        user: userId.textContent
+                    })
+                }).then((response) => {
+                    console.log(response)
+                    window.location.reload();
+                })
+            } else {
+                console.log('didnt delete document')
+            }
+        }
+        // function createDocument() {
+        //     window.location.href = '/document';
+        // }
+        function redirectDocument(doc) {
+            window.location.href = '/document/' + doc
+        }
+
+        let randomid;
+
+        // function createDocument(){
+        //     fetch('/randomid')
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         //randomid = data.id
+        //         randomid = data.id
+
+        //         window.location.href = `/document/${randomid}`
+        //     })
+
+        // }
+    </script>
+
+    <style>
+        @import url("https://fonts.googleapis.com");
+        @import url("https://fonts.gstatic.com");
+        @import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Ubuntu:wght@500&display=swap");
+
+        * {}
+
+        #mydocuments {
+            display: grid;
+            column-gap: 50px;
+            row-gap: 100px;
+            grid-template-columns: auto auto auto auto;
+            color: white;
+            font-weight: lighter;
+        }
+
+        * {
+            font-family: 'Fredoka One';
+        }
+
+        .card {
+            border-style: none;
+            cursor: pointer;
+            border-radius: 5px;
+            /* box-shadow: 10px 10px 15px -1px rgba(34, 33, 33, 0.74);
+            -webkit-box-shadow: 10px 10px 15px -1px rgba(34, 33, 33, 0.74);
+            -moz-box-shadow: 10px 10px 15px -1px rgba(34, 33, 33, 0.74); */
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            background-color: #444343;
+        }
+
+        .card:hover {
+            box-shadow: 0 12px 16px 0 rgba(255, 255, 255, 0.24), 0 17px 50px 0 rgba(255, 254, 254, 0.19);
+            
+        }
+
+        .container {
+            padding: 15px;
+        }
+
+        .delete-btn {
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 15px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: red;
+            border: none;
+            border-radius: 6px;
+            box-shadow: 0 0px #999;
+            position: relative;
+            bottom: 20px;
+            left: 10px;
+        }
+
+        .delete-btn:hover {
+            color: black;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #2b2b2b;
+        }
+
+        h1,
+        div.header {
+            color: white;
+            font-weight: 200;
+        }
+
+        a {
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        a:hover {
+            color: #acaaaa;
+            font-style: italic;
+        }
+
+        #pfp {
+            border-radius: 50%;
+        }
+    </style>
+</body>
+
+</html>

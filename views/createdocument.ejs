@@ -1,0 +1,31 @@
+<html>
+
+<head>
+    <title>Create a Document</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+</head>
+
+<body>
+    <form id="documentForm">
+        <input name="document_name" placeholder="Name of Document" required id='name' />
+        <input type="submit">
+    </form>
+
+    <script>
+        const documentForm = document.getElementById('documentForm')
+        const documentName = document.getElementById('name')
+        documentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            console.log(documentName.value)
+            window.location.href = `/document/${documentName.value}`;
+        })
+    </script>
+</body>
+
+</html>

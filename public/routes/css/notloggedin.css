@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com");
+@import url("https://fonts.gstatic.com");
+@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Ubuntu:wght@500&display=swap");
+
+* {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    font-family: 'Fredoka One';
+    font-weight: 100;
+    font-size: xx-large;
+}
+
+body {
+background-color: #2b2b2b;
+color: white;
+}
+.head {
+     padding-top:20%;
+    padding-bottom: 15px; 
+  
+}
+.msg {
+   padding: 0px;
+   top:00px;
+   position: relative;
+   color: #444343;
+}
+
+#errmsg{
+    font-size:250px;
+}
+
+#post-btn {
+    color: rgb(128, 126, 126);
+    background-color: #ffffff;
+    padding: 8px;
+    border-radius: 12px;
+    cursor: pointer;
+    border: none;
+}
+
+#post-btn:hover {
+    color: grey;
+    font-style: italic;
+    box-shadow: 0 12px 16px 0 rgba(255, 255, 255, 0.24), 0 17px 50px 0 rgba(196, 193, 193, 0.19);
+    
+}
