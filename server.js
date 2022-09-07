@@ -136,12 +136,13 @@ app.get('/test', auth, (req, res) => {
 
 io.on('connection', (socket) => {
     let identification;
-    socket.on('connected-document', async(id) => {
+    socket.on('connected-document', async(id, userId) => {
+        console.log(userId)
         let findDocument = await Document.findOne({ documentId: id })
         if(!findDocument){
             Document.create({
                 documentId: id,
-                owner: finalUsername
+                owner: userId
             })
             identification = id;
             socket.join(identification)
@@ -151,21 +152,21 @@ io.on('connection', (socket) => {
             identification = id
             //console.log(newDocument)
             
-                socket.emit('new-document', newDocument, finalUsername)
+                socket.emit('new-document', newDocument, userId)
             let emptyArrayUsers = []
             let findOwnerDoc = await Document.findOne({ documentId: id }).distinct('owner');
-            let findSharedUsers = await SharedDocument.findOne({ shareduser: finalUsername, documentId: id })
+            let findSharedUsers = await SharedDocument.findOne({ shareduser: userId, documentId: id })
             let findDocTitle = await Document.findOne({ documentId: id }).distinct('title');
             if(findSharedUsers)
             {
                 return
             
             }
-            if(findOwnerDoc[0] === finalUsername){
+            if(findOwnerDoc[0] === userId){
                 return
             } 
             else {
-                    await SharedDocument.create({ shareduser: finalUsername, documentId: id, owner: findOwnerDoc[0], title: findDocTitle[0]})
+                    await SharedDocument.create({ shareduser: userId, documentId: id, owner: findOwnerDoc[0], title: findDocTitle[0]})
              }
             
                 // let filteringUsers = await Document.findOne({ documentId: id }).distinct('sharedusers');

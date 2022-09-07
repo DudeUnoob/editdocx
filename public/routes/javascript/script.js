@@ -4,6 +4,8 @@ let userId;
       .then((data) => {
         userId = data;
         console.log(userId)
+      
+
       })
 
      
@@ -95,12 +97,13 @@ var quill = new Quill('#editor', {
       }
       
       
-    
-      
+      setTimeout(() => {
+        socket.emit('connected-document', documentId, userId)
+
+      }, 500)
         
       
       
-      socket.emit('connected-document', documentId)
       socket.on('new-document', (data, user) => {
           quill.setContents(data.documentdata)
           //userId = user;
