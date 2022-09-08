@@ -22,9 +22,18 @@
 <body>
     <h1 style="margin: 15px;">Welcome</h1>
     <div class="header" style="margin: 15px;">
-        <h1 id="user">
-            <%= user %>
-        </h1>
+        <% if(!name){ %>
+            <h1 id="user">
+                <%= user %>
+                
+            </h1>
+       <% } else { %>
+            <h1 id="user">
+                <%= name %>
+                
+            </h1>
+      <%  } %>
+           
         <img id="pfp" src="<%= picture %>" referrerPolicy="no-referrer"/>
     </div>
     <div style="margin: 15px;">
@@ -74,6 +83,12 @@
     </div>
 
     <script>
+        let finalUserid;
+        fetch('/test').then(res => res.json())
+        .then(data => {
+            console.log(data)
+            finalUserid = data
+        })
         let reloadState = false;
         const mydocuments = document.getElementById('mydocuments');
         const userId = document.getElementById('user')
@@ -101,10 +116,10 @@
                     },
                     body: JSON.stringify({
                         document: doc,
-                        user: userId.textContent
+                        user: finalUserid
                     })
                 }).then((response) => {
-                    console.log(response)
+                    console.log(response.json())
                     window.location.reload();
                 })
             } else {

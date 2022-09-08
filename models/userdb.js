@@ -8,7 +8,8 @@ mongoose.connect(databaseConnectionString).then(() => {
 const Schema = new mongoose.Schema({
     username:String,
     password: String,
-    picture: String
+    picture: String,
+    name: String
 })
 
 module.exports = mongoose.model('userdb', Schema)

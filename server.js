@@ -242,6 +242,10 @@ io.on('connection', (socket) => {
     let myDocuments = await Document.find({ owner: user })
     let myProfilePicture = await userdb.findOne({ username: user }).distinct('picture')
     let sharedDocs = await SharedDocument.find({ shareduser: user })
+    let fullName = await userdb.findOne({ username: user }).distinct('name')
+    
+        
+    
     //  myDocuments.forEach(async(doc) => {
 
     //     return docs += 
@@ -255,7 +259,7 @@ io.on('connection', (socket) => {
     // } catch (e) {
     //     res.send(docs)
     // }
-    res.render('mydocuments', { documents: myDocuments, user: user, picture: myProfilePicture, sharedDocs: sharedDocs })
+    return res.render('mydocuments', { documents: myDocuments, user: user, picture: myProfilePicture, sharedDocs: sharedDocs, name: fullName[0] })
     
   })
 
@@ -294,7 +298,7 @@ io.on('connection', (socket) => {
 
 
     await Document.findOneAndDelete({ owner: user, documentId: document })
-
+    await SharedDocument.findOneAndDelete({ documentId: document })
     res.send("deleted document")
   })
 
@@ -318,7 +322,7 @@ io.on('connection', (socket) => {
         // If request specified a G Suite domain:
         // const domain = payload['hd'];
         const email = payload.email;
-        
+        const fullName = payload.name;
         let findUser = await userdb.findOne({ username: email })
 
         if(findUser){
@@ -342,7 +346,8 @@ io.on('connection', (socket) => {
         else {
             await userdb.create({
                 username: email,
-                picture: payload.picture
+                picture: payload.picture,
+                name: fullName
             })
 
             let token = jwt.sign(
