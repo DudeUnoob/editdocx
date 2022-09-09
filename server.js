@@ -287,7 +287,7 @@ io.on('connection', (socket) => {
     }
   })
 
-  app.get('/mydocuments', myDocuments, (req, res) => {
+  app.get('/mydocuments', auth, (req, res) => {
     res.redirect(`/mydocuments/${req.session.userid}`)
   })
 
