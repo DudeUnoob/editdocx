@@ -10,9 +10,8 @@ function myDocuments (req, res, next) {
     // }
 
 
-    let token = req.body.token || req.session.token || req.session.userid
 
-    if(!token){
+    if(!req.body.token || !req.session.token || !req.session.userid){
 
         return res.sendFile('notloggedin.html', { root: path.join(__dirname, '../views/404')})
     } else {
