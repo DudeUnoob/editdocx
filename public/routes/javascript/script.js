@@ -26,7 +26,7 @@ let userId;
 			  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
 			  [{ 'font': [] }],
 			  [{ 'align': [] }],
-			  ['clean', 'image', 'link'],
+			  ['clean', 'image', 'link', 'video'],
                                               
         
                                             // remove formatting button
