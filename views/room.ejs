@@ -18,7 +18,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
   <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
-
+  <script src="/quillvideoresize.js"></script>
 
   <!-- Theme included stylesheets -->
   <base href="/">
@@ -41,6 +41,26 @@
   <div class="container">
     <div class="ql-toolbar ql-snow">
       <input type="text" name="title" placeholder="Title" id='title' onblur="documentTitle()" />
+
+      <button class="trigger">Share</button>
+<div class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h1>Share With Users</h1>
+        <form id="myform">
+          <h2>Add a User:</h2>
+          <input id="username" type="text" name="username" placeholder="name"/>
+          <button type="button"  onclick="addUser()" id="add-user" style=" width:fit-content;">add user</button>
+      </form>
+      <div class="users">
+        <h1>Users Added</h1>
+      <ul id="users">
+
+      </ul>
+      </div>
+    </div>
+    
+</div>
 
       <button id="clickbind">
         <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
@@ -164,8 +184,52 @@ c11 -35 1 -79 -20 -86 -36 -12 -615 -5 -631 8 -8 7 -13 28 -12 53 l2 42 328
 
   <script src="/public/script.js"></script>
   <script>
+    const title = document.getElementById('title');
+    const modal = document.querySelector(".modal");
+const trigger = document.querySelector(".trigger");
+const closeButton = document.querySelector(".close-button");
+
+var list = document.getElementById('users');
+
+function addUser(){
+    var username = document.getElementById('username').value;
+    var li = document.createElement('li')
+    li.appendChild(document.createTextNode(username));
+    list.appendChild(li);
+
+    console.log(li)
+    fetch('/sharedocument', {
+      method:"post",
+      headers:{
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        owner: userId,
+        documentId: documentId,
+        user: username,
+        title: title.value
+      })
+    }).then(response => response.json()).then(data => console.log(data))
+    return false;
+}
+function toggleModal() {
+    modal.classList.toggle("show-modal");
+}
+
+function windowOnClick(event) {
+    if (event.target === modal) {
+        toggleModal();
+    }
+}
+
+trigger.addEventListener("click", toggleModal);
+closeButton.addEventListener("click", toggleModal);
+window.addEventListener("click", windowOnClick);
+
+// When the user clicks anywhere outside of the modal, close it
     fetch('/documenttitler', {
-      method: 'post',
+      method:'post',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -173,14 +237,36 @@ c11 -35 1 -79 -20 -86 -36 -12 -615 -5 -631 8 -8 7 -13 28 -12 53 l2 42 328
       body: JSON.stringify({
         id: documentId
       })
+    }).then(res => res.json())
+    .then((data) => {
+      if(!data.title){
+        title.value = "Untitled";
+      } else {
+        title.value = data.title
+      }
+    })
+    
+
+
+    fetch('/documenttitles', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: documentId,
+        user: userid
+      })
     }).then(response => response.json())
       .then(data => {
-        const title = document.getElementById('title');
-        if (!data.title) {
-          title.value = 'Untitled'
-        } else {
-          title.value = data.title
-        }
+        
+        // if (!data.title) {
+        //   title.value = 'Untitled'
+        // } else {
+        //   title.value = data.title
+        // }
+        console.log(data)
       })
   </script>
 

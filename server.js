@@ -287,8 +287,28 @@ io.on('connection', (socket) => {
     }
   })
 
+//   app.get('/documenttitle', async(req, res) => {
+
+//   })
+
   app.get('/mydocuments', auth, (req, res) => {
     res.redirect(`/mydocuments/${req.session.userid}`)
+  })
+
+  app.post('/sharedocument', async(req, res) => {
+    const owner = req.body.owner;
+    const id = req.body.documentId;
+    const title = req.body.title
+    const user = req.body.user
+    let findDoc = await SharedDocument.findOne({ owner: owner, documentId: id, shareduser: user })
+
+    if(!findDoc){
+        await SharedDocument.create({ shareduser: user, documentId: id, owner: owner, title: title})
+
+        return res.send("Added")
+    } else {
+        return;
+    }
   })
 
   app.post('/deletedocument', async(req, res) => {

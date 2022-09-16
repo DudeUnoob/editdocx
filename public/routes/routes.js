@@ -87,4 +87,8 @@ router.get('/android-chrome-384x384.png', (req, res) => {
     res.sendFile('android-chrome-384x384.png', { root: path.join(__dirname, './favicon')})
 })
 
+router.get('/quillvideoresize.js', (req, res) => {
+    res.sendFile('quillvideoresize.js', { root: path.join(__dirname, './javascript')})
+})
+
 module.exports = router

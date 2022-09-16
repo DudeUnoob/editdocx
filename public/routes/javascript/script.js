@@ -46,6 +46,7 @@ var quill = new Quill('#editor', {
       imageResize:{
         displaySize: true
       },
+      
       history: {
         userOnly: true,
         maxStack: 100
