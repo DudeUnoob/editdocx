@@ -38,29 +38,12 @@
 </head>
 
 <body>
-  <div class="container">
+  <div class="container" id="container">
     <div class="ql-toolbar ql-snow">
       <input type="text" name="title" placeholder="Title" id='title' onblur="documentTitle()" />
 
-      <button class="trigger">Share</button>
-<div class="modal">
-    <div class="modal-content">
-        <span class="close-button">&times;</span>
-        <h1>Share With Users</h1>
-        <form id="myform">
-          <h2>Add a User:</h2>
-          <input id="username" type="text" name="username" placeholder="name"/>
-          <button type="button"  onclick="addUser()" id="add-user" style=" width:fit-content;">add user</button>
-      </form>
-      <div class="users">
-        <h1>Users Added</h1>
-      <ul id="users">
-
-      </ul>
-      </div>
-    </div>
-    
-</div>
+      <button class="trigger" id="trigger">Share</button>
+      
 
       <button id="clickbind">
         <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
@@ -181,13 +164,33 @@ c11 -35 1 -79 -20 -86 -36 -12 -615 -5 -631 8 -8 7 -13 28 -12 53 l2 42 328
     <p id="okbruh"></p>
 
   </div>
+  <div class="modal">
+    <div class="modal-content">
+        <span class="close-button" id="close-button">&times;</span>
+        <h1>Share With Users</h1>
+        <form id="myform">
+          <h2>Add a User:</h2>
+          <input id="username" type="text" name="username" placeholder="name"/>
+          <button type="button"  onclick="addUser()" id="add-user" style=" width:fit-content;">add user</button>
+      </form>
+      <div class="users">
+        <h1>Users Added</h1>
+      <ul id="users">
+
+      </ul>
+      </div>
+    </div>
+    
+</div>
 
   <script src="/public/script.js"></script>
   <script>
     const title = document.getElementById('title');
     const modal = document.querySelector(".modal");
 const trigger = document.querySelector(".trigger");
+const secondTrigger = document.getElementById('trigger')
 const closeButton = document.querySelector(".close-button");
+const secondCloseButton = document.getElementById('close-button')
 
 var list = document.getElementById('users');
 
@@ -226,6 +229,14 @@ function windowOnClick(event) {
 trigger.addEventListener("click", toggleModal);
 closeButton.addEventListener("click", toggleModal);
 window.addEventListener("click", windowOnClick);
+
+secondCloseButton.addEventListener('click', () => {
+  document.getElementById('container').style.display = 'block'
+})
+
+secondTrigger.addEventListener('click', () => {
+  document.getElementById('container').style.display = 'none'
+})
 
 // When the user clicks anywhere outside of the modal, close it
     fetch('/documenttitler', {

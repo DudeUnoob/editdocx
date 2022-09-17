@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com");
+@import url("https://fonts.gstatic.com");
+@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Ubuntu:wght@500&display=swap");
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -110,9 +114,11 @@ Set the font-family content used for the HTML content.
   visibility: hidden;
   transform: scale(1.1);
   transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+  font-family: 'Fredoka-One', cursive;
 }
 
 .modal-content {
+
   position: absolute;
   top: 50%;
   left: 50%;
@@ -126,8 +132,8 @@ Set the font-family content used for the HTML content.
 
 .close-button {
   float: right;
-  width: 1.5rem;
-  line-height: 1.5rem;
+  width: 2.5rem;
+  line-height: 2.5rem;
   text-align: center;
   cursor: pointer;
   border-radius: 0.25rem;
