@@ -48,11 +48,14 @@
         <button type="button" class="cancelbtn" onclick="cancelButton()">Cancel</button>
         <button type="submit" class="signupbtn">Sign Up</button>
 
-        <div id="g_id_onload"
+        
+
+      </div>
+      <div id="g_id_onload"
      data-client_id="253747450477-kplgcppb6u51jtq0vfe06sbahmmveamq.apps.googleusercontent.com"
      data-context="use"
      data-ux_mode="popup"
-     data-login_uri="http://localhost:3000/login_google"
+     data-login_uri="/login_google"
      data-auto_select="true"
      data-itp_support="true">
 </div>
@@ -67,13 +70,11 @@
      
      >
 </div>
-
-      </div>
     </div>
   </form>
   <script>
     function cancelButton() {
-      window.location.href = 'http://localhost:3000'
+      window.location.href = '/'
     }
 
     function checkPassword(form) {
