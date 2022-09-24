@@ -137,7 +137,6 @@ app.get('/test', auth, (req, res) => {
 io.on('connection', (socket) => {
     let identification;
     socket.on('connected-document', async(id, userId) => {
-        console.log(userId)
         let findDocument = await Document.findOne({ documentId: id })
         if(!findDocument){
             Document.create({
@@ -309,6 +308,14 @@ io.on('connection', (socket) => {
     } else {
         return;
     }
+  })
+
+  app.post('/getshareddocument',async (req, res) => {
+    const id = req.body.id
+
+   let ah = await SharedDocument.find({ documentId: id })
+
+    res.send(ah)
   })
 
   app.post('/deletedocument', async(req, res) => {

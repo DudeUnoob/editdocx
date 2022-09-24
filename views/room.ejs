@@ -237,7 +237,23 @@ secondCloseButton.addEventListener('click', () => {
 secondTrigger.addEventListener('click', () => {
   document.getElementById('container').style.display = 'none'
 })
-
+fetch('/getshareddocument', {
+        method:'post',
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: documentId
+        })
+      }).then(response => response.json())
+      .then(data => {
+        data.map((elm, i) => {
+          var li = document.createElement('li');
+          li.appendChild(document.createTextNode(elm.shareduser))
+          list.appendChild(li)
+        })
+      })
 // When the user clicks anywhere outside of the modal, close it
     fetch('/documenttitler', {
       method:'post',
@@ -279,6 +295,8 @@ secondTrigger.addEventListener('click', () => {
         // }
         console.log(data)
       })
+
+      
   </script>
 
 </body>
