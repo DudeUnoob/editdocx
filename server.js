@@ -116,7 +116,7 @@ app.get('/document', auth,  (req, res) => {
     //     res.send({ id: uuidV4()})
     // })
 
-app.get('/document/:docs', auth, async(req, res) => {
+app.get('/document/:docs',  async(req, res) => {
     //res.sendFile('room.html', { root: path.join(__dirname, './views')})
         
         res.render('room', { roomId: req.params.docs })
@@ -130,8 +130,12 @@ app.get('/logout', auth, (req, res) => {
     res.send('<a href=/>Successfully logged out</a>')
 })
 
-app.get('/test', auth, (req, res) => {
-    res.json(req.session.userid)
+app.get('/test',  (req, res) => {
+    if(!req.session.userid){
+        res.json("not logged in")
+    } else {
+        res.json(req.session.userid)
+    }
 })
 
 io.on('connection', (socket) => {

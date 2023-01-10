@@ -59,7 +59,15 @@ var quill = new Quill('#editor', {
       var userArr = []
     
       socket.on('connect', (socket) => {
+        console.log("connected to socket")
         //cursors.createCursor(userId, userId, 'blue')
+      fetch('/test').then((response) => response.json())
+      .then(data => {
+        if(data === "not logged in"){
+          quill.enable(false)
+          console.log("working???")
+        }
+      })
         
       })
       
