@@ -65,6 +65,8 @@ var quill = new Quill('#editor', {
       .then(data => {
         if(data === "not logged in"){
           quill.enable(false)
+          const inputTitle = document.getElementById("title")
+          inputTitle.disabled = true
           console.log("working???")
         }
       })
@@ -183,21 +185,26 @@ element.addEventListener("click", onClick);
 
 
 function documentTitle() {
-      
-  const title = document.getElementById('title')
-  fetch('/documenttitles', {
-    method:'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-  },
-
-    body: JSON.stringify({
-      title: title.value,
-      id: documentId,
-      user: userId
+    
+  if(userId == "not logged in"){
+    return;
+  } else {
+    const title = document.getElementById('title')
+    fetch('/documenttitles', {
+      method:'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+  
+      body: JSON.stringify({
+        title: title.value,
+        id: documentId,
+        user: userId
+      })
+    }).then((response) => {
+      console.log(response)
     })
-  }).then((response) => {
-    console.log(response)
-  })
+  }
+  
 }
