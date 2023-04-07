@@ -11,8 +11,10 @@ function auth (req, res, next) {
     } else {
         try{
             let decrypt = jwt.verify(token, 'helloworld')
-
+            
         req.user = decrypt;
+
+        
         }
         catch(e) {
             req.session.destroy()

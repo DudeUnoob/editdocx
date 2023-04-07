@@ -298,6 +298,20 @@ io.on('connection', (socket) => {
     res.redirect(`/mydocuments/${req.session.userid}`)
   })
 
+  app.get('/getalldocs', auth, async(req, res) => {
+    const resultArray = [];
+    Document.find({ owner: req.session.userid }, (err, docs) => {
+      if (err) {
+        console.log(err);
+      } else {
+        for (let i = 0; i < docs.length; i++) {
+          resultArray.push(docs[i]);
+        }
+        return res.json(resultArray)
+      }
+    });
+  })
+
   app.post('/sharedocument', async(req, res) => {
     const owner = req.body.owner;
     const id = req.body.documentId;

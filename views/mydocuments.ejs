@@ -83,6 +83,7 @@
     </div>
 
     <script>
+        let powerArray = ['action', 'state', 'delete']
         let finalUserid;
         fetch('/test').then(res => res.json())
         .then(data => {
@@ -119,6 +120,12 @@
                         user: finalUserid
                     })
                 }).then((response) => {
+                    //function with iteration and params.
+                    for (let i = 0; i < powerArray.length; i++){
+                        if(powerArray[i] == 'action'){
+                            return powerArray[i]
+                        }
+                    }
                     console.log(response.json())
                     window.location.reload();
                 })

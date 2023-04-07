@@ -20,6 +20,7 @@
     <script>
         const documentForm = document.getElementById('documentForm')
         const documentName = document.getElementById('name')
+        //onclick and input event listener. When a user clicks this, this redirects them to the route and creates a new document
         documentForm.addEventListener('submit', (e) => {
             e.preventDefault();
             console.log(documentName.value)
