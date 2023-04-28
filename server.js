@@ -52,8 +52,9 @@ app.post('/login', async(req, res) => {
     const password = req.body.password;
 
     let checkUser = await userdb.findOne({ username: username }).distinct('password')
-
+    //function to compare password
     bcrypt.compare(password, checkUser[0], function(err, result) {
+        //if statement to check if inputted password equals to the password stored in the database
         if(result == true){
             let token = jwt.sign(
                 { user: username },
@@ -299,6 +300,7 @@ io.on('connection', (socket) => {
   })
 
   app.get('/getalldocs', auth, async(req, res) => {
+    //array intialized to cache and return all stored documents of the authorized user signed in
     const resultArray = [];
     Document.find({ owner: req.session.userid }, (err, docs) => {
       if (err) {
