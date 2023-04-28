@@ -172,6 +172,9 @@ c11 -35 1 -79 -20 -86 -36 -12 -615 -5 -631 8 -8 7 -13 28 -12 53 l2 42 328
           <h2>Add a User:</h2>
           <input id="username" type="text" name="username" placeholder="name"/>
           <button type="button"  onclick="addUser()" id="add-user" style=" width:fit-content;">add user</button>
+          <br />
+          <br />
+          <input id="find_user" type="text" name="find_user" placeholder="Find a shared user"/>
       </form>
       <div class="users">
         <h1>Users Added</h1>
@@ -185,15 +188,51 @@ c11 -35 1 -79 -20 -86 -36 -12 -615 -5 -631 8 -8 7 -13 28 -12 53 l2 42 328
 
   <script src="/public/script.js"></script>
   <script>
-    const title = document.getElementById('title');
-    const modal = document.querySelector(".modal");
+const title = document.getElementById('title');
+const modal = document.querySelector(".modal");
 const trigger = document.querySelector(".trigger");
 const secondTrigger = document.getElementById('trigger')
 const closeButton = document.querySelector(".close-button");
 const secondCloseButton = document.getElementById('close-button')
 
 var list = document.getElementById('users');
+const searchUser = document.getElementById("find_user")
 
+//search user input field triggers an event listener to call the function "findUser" when a user starts typing
+searchUser.addEventListener("keyup", function() {
+  //findUser function takes the argument of the search input field text
+  findUser(searchUser.value)
+})
+
+
+function findUser(searchField) {
+  let  ul, li, a, filter, i, txtValue;
+
+  filter = searchField.toUpperCase()
+
+  ul = document.getElementById("users")
+  li = ul.getElementsByTagName("li")
+  /*
+the algorithm loops through each list element analyzing the textContent of each item and then applying a filter
+to see if that filter of the search user input matchest he textContent of any list element and compare if the filter
+was found in text and render it to the output display if it was.
+*/
+  for(i = 0; i < li.length; i++){
+    txtValue = li[i].textContent || li[i].innerText
+    console.log(txtValue)
+
+    if(txtValue.toUpperCase().indexOf(filter) > -1){
+      li[i].style.display = ""
+    }
+    else {
+      li[i].style.display = "none"
+    }
+    
+  }
+  
+}
+
+//adds a user to the document with the username, the owner of the document, title of the document, and the unique documentId
 function addUser(){
     var username = document.getElementById('username').value;
     var li = document.createElement('li')
@@ -216,6 +255,9 @@ function addUser(){
     }).then(response => response.json()).then(data => console.log(data))
     return false;
 }
+
+
+//this function opens the modal user interface window 
 function toggleModal() {
     modal.classList.toggle("show-modal");
 }
@@ -223,20 +265,29 @@ function toggleModal() {
 function windowOnClick(event) {
     if (event.target === modal) {
         toggleModal();
+    } else {
+      return;
     }
 }
 
+//share button event listener to call the toggleModal function when clicked
 trigger.addEventListener("click", toggleModal);
+
+//share button event listener to call the toggleModal function when clicked
 closeButton.addEventListener("click", toggleModal);
 window.addEventListener("click", windowOnClick);
 
+//hides the visibility of the container element and all children of that element
 secondCloseButton.addEventListener('click', () => {
   document.getElementById('container').style.display = 'block'
 })
 
+//hides the visibility of the container element and all children of that element
 secondTrigger.addEventListener('click', () => {
   document.getElementById('container').style.display = 'none'
 })
+
+//sends an REST API POST request to the server to get all the users with the associated documentId being sent
 fetch('/getshareddocument', {
         method:'post',
         headers:{
@@ -248,13 +299,18 @@ fetch('/getshareddocument', {
         })
       }).then(response => response.json())
       .then(data => {
-        data.map((elm, i) => {
+        //response from the server and save to an array consisting data such as the documentId, the owner and creator of the document,
+        //the shared user, and the document title
+        let sharedDocArr = [data]
+        for(let i = 0; i < sharedDocArr[0].length; i++){
           var li = document.createElement('li');
-          li.appendChild(document.createTextNode(elm.shareduser))
+          li.appendChild(document.createTextNode(sharedDocArr[0][i].shareduser))
           list.appendChild(li)
-        })
+          console.log(sharedDocArr[i])
+        }
+        
       })
-// When the user clicks anywhere outside of the modal, close it
+
     fetch('/documenttitler', {
       method:'post',
       headers: {
@@ -288,11 +344,7 @@ fetch('/getshareddocument', {
     }).then(response => response.json())
       .then(data => {
         
-        // if (!data.title) {
-        //   title.value = 'Untitled'
-        // } else {
-        //   title.value = data.title
-        // }
+       
         console.log(data)
       })
 
