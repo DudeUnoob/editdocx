@@ -79,7 +79,13 @@ var quill = new Quill('#editor', {
 
       
         
-      
+      if(window.location.href.startsWith("https://edudocx.tech")){
+        documentId = window.location.href.slice(30)
+      }
+
+      if(window.location.href.startsWith("https://www.edudocx.tech")){
+        documentId = window.location.href.slice(34)
+      }
       
       if(window.location.href.startsWith("https://edudocx.ml")) {
         documentId = window.location.href.slice(28)
