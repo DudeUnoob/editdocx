@@ -1,5 +1,5 @@
 const config = {
-    "databaseConnectionString":"mongodb+srv://ZeroX:Balaram26@cluster0.b2lzi.mongodb.net/?retryWrites=true&w=majority"
+    "databaseConnectionString":"MONGODB_CONNECTION_URI"
 }
 
 module.exports = config;
