@@ -1,5 +1,5 @@
 const config = {
-    "databaseConnectionString":"MONGODB_CONNECTION_URI"
+    "databaseConnectionString": process.env.MONGO_DB_URI
 }
 
 module.exports = config;

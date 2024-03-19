@@ -77,7 +77,6 @@ var quill = new Quill('#editor', {
       //   cursors.update()
       // })
 
-      
         
       if(window.location.href.startsWith("https://edudocx.tech")){
         documentId = window.location.href.slice(30)
